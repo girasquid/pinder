@@ -54,10 +54,5 @@
   },
   "globals": {
     "fetch"
-
-Error: Parse error on line 56:
-...s": {    "fetch"  }}
----------------------^
-Expecting ':'
-}
+  }
 }
