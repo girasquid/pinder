@@ -90,6 +90,7 @@ class PinderWelcome extends Component {
     }
     this.state.request_key = this.state.players.push({playerName: this.state.playerName, time: new Date().getTime() / 1000}).key();
     this.state.players.on("child_added", this._handleNewPlayer.bind(this));
+    this.state.responses.on("child_added", this._handleRespondingPartner.bind(this))
   }
   _handleNewPlayer(snapshot) {
     if(snapshot.val() == "no push") {
@@ -122,9 +123,19 @@ class PinderWelcome extends Component {
       ]
     )
   }
+  _handleRespondingPartner(snapshot) {
+    if(snapshot.child("partner").val() == this.state.request_key) {
+      React.AlertIOS.alert(
+        "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
+        snapshot.child("playerName").val(),
+        [{text: '\uD83C\uDF8A'}]
+      )
+      console.log(snapshot.child("playerName").val() + " wants to play with us!")
+    }
+  }
   _playBall(snapshot) {
-    console.log("Let's play ball with " + snapshot.child("playerName").val());
-    this.state.responses.push({player: this.state.request_key, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
+    console.log('Let\'s play ball with ' + snapshot.child("playerName").val());
+    this.state.responses.push({playerName: this.state.playerName, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
     return;
   }
   updatePlayerName(event) {
