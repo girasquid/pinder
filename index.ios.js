@@ -42,7 +42,7 @@ var PinderCamera = React.createClass({
             type="Back"
             orientation="Portrait"
             onScanned={this._onScannedResult}
-            style={styles.barcode}
+            style={styles.body}
           />
         </React.View>
         <React.TouchableHighlight onPress={this._takePicture}>
@@ -75,11 +75,10 @@ class Welcome extends Component {
     return (
       <React.View style={styles.container}>
         <React.Text style={styles.header}>Pinder</React.Text>
-        <React.View style={styles.center}>
+        <React.View style={styles.body}>
           <Button
             style={{borderWidth:0, color: 'orange'}}
-            onPress={this.onLaunchPressed.bind(this)}
-            style={{justifyContent: 'center', alignItems: 'center'}}>
+            onPress={this.onLaunchPressed.bind(this)}>
             <React.Image
               source={require('image!paddles-red')}
               style={styles.introImage}
@@ -115,38 +114,30 @@ var styles = StyleSheet.create({
   navigator: {
     flex: 1
   },
+  container: {
+    flex: 1,
+    flexDirection: 'column'
+  },
   header: {
+    flex: 20,
     fontSize: 96,
     textAlign: "center",
+    height: 100,
     fontFamily: "Poetsen One",
     // textTransform: "capitalize",
     backgroundColor: "#FFA500",
     color: "#333333"
   },
-  button: {
-    fontSize: 48,
-    textAlign: "center",
-    fontFamily: "Lucida Grande",
-  },
-  center: {
-    flex: 1,
+  body: {
+    flex: 80,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+    alignItems: 'center',
+    marginBottom: 100
   },
   introImage: {
+    flex: 1,
     width: 250,
-    height: 156,
-    flex: 1
+    height: 156
   },
   barcode:{
     justifyContent: 'center',
