@@ -108,7 +108,7 @@ class Welcome extends Component {
     }
     React.AlertIOS.alert(
       "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
-      snapshot.child("player").val(),
+      snapshot.child("playerName").val(),
       [
         {text: '\u2764\uFE0F', onPress: () => this._playBall(snapshot)},
         {text: '\uD83D\uDC94', onPress: () => this._nextPlease(snapshot)}
