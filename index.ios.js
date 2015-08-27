@@ -65,7 +65,7 @@ class Welcome extends Component {
     this.state = {
       firebase: firebaseURL
     }
-    this.state.firebase.on("value", this._handleNewPlayer);
+    this.state.firebase.on("child_added", this._handleNewPlayer);
   }
   onLaunchPressed() {
     this.props.navigator.push({
@@ -77,17 +77,12 @@ class Welcome extends Component {
   onButtonPressedJustEmojiModeTheReckoning() {
     items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
     var item = items[Math.floor(Math.random()*items.length)];
-    // alert(item);
     this.state.firebase.push({player: item});
-    // this.stage.firebase.push({player: })
   }
   _handleNewPlayer(snapshot) {
     if(snapshot.val() == null) {
       return;
     }
-    console.log(snapshot.val());
-    console.log("child: " + snapshot.child("player").val());
-    alert(snapshot.child("player").val());
   }
   render() {
     return (
