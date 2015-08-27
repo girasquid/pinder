@@ -7,6 +7,7 @@
 'use strict';
 
 import React from 'react-native';
+import Firebase from 'firebase';
 
 var {
   AppRegistry,
@@ -19,9 +20,10 @@ var {
 } = React;
 
 var Button = require('react-native-button');
+var firebaseURL = new Firebase("https://pinder-development.firebaseio.com/");
+
 
 var Pinder = React.createClass({
-
   render: function() {
     return (
       <React.View style={styles.none}>
@@ -39,13 +41,17 @@ var Pinder = React.createClass({
           </Button>
         </React.View>
       </React.View>
-      
+
     );
   },
-  
+
   _handlePress(event) {
     console.log('David Bowie wants to play ball.');
-  }
+    firebaseURL.child("player").on("value", function(snapshot) {
+        alert("DAVID BOWIE wants to play ball!");
+    });
+    firebaseURL.push({player: "new player"});
+  },
 })
 
 var styles = StyleSheet.create({
