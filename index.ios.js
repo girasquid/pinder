@@ -22,8 +22,13 @@ var {
 var Button = require('react-native-button');
 var firebaseURL = new Firebase("https://pinder-development.firebaseio.com/");
 
-
 var Pinder = React.createClass({
+  getInitialState: function() {
+    firebaseURL.on("value", this._handleNewPlayer);
+    return {
+      firebase: firebaseURL
+    }
+  },
   render: function() {
     return (
       <React.View style={styles.none}>
@@ -46,11 +51,12 @@ var Pinder = React.createClass({
   },
 
   _handlePress(event) {
-    console.log('David Bowie wants to play ball.');
-    firebaseURL.child("player").on("value", function(snapshot) {
-        alert("DAVID BOWIE wants to play ball!");
-    });
-    firebaseURL.push({player: "new player"});
+    // console.log('David Bowie wants to play ball.');
+    this.state.firebase.push({player: "new player"});
+  },
+
+  _handleNewPlayer(snapshot) {
+    alert("DAVID BOWIE wants to play ball!");
   },
 })
 
