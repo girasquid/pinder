@@ -101,10 +101,22 @@ class Welcome extends Component {
       console.log("Too old! Ignoring!");
       return;
     }
-    alert("Would you like to play with" + snapshot.child("player").val() + "?");
-    // TODO pop up an alert where you decide to do it or not
-
+    React.AlertIOS.alert(
+      "Found a match!",
+      snapshot.child("player").val() + ' wants to play ball!',
+      [
+        {text: '\u2764\uFE0F', onPress: () => this._playBall},
+        {text: '\uD83D\uDC94', onPress: () => this._nextPlease}
+      ]
+    )
   }
+  _playBall(snapshot) {
+    console.log("Let's play ball");
+  }
+  _nextPlease(snapshot) {
+    console.log("No thanks");
+  }
+
   render() {
     return (
       <React.View style={styles.container}>
