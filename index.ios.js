@@ -70,6 +70,7 @@ class Welcome extends Component {
       request_key: "no push",
       launch_time: new Date().getTime() / 1000,
     }
+    this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
   onLaunchPressed() {
     this.props.navigator.push({
@@ -86,7 +87,6 @@ class Welcome extends Component {
     items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
     var item = items[Math.floor(Math.random()*items.length)];
     this.state.request_key = this.state.players.push({player: item, time: new Date().getTime() / 1000}).key();
-    this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
   _handleNewPlayer(snapshot) {
     if(snapshot.val() == "no push") {
