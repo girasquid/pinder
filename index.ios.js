@@ -88,9 +88,7 @@ class PinderWelcome extends Component {
       console.log("You have a request! No push!");
       return;
     }
-    items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
-    var item = items[Math.floor(Math.random()*items.length)];
-    this.state.request_key = this.state.players.push({playerName: this.state.playerName, player: item, time: new Date().getTime() / 1000}).key();
+    this.state.request_key = this.state.players.push({playerName: this.state.playerName, time: new Date().getTime() / 1000}).key();
     this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
   _handleNewPlayer(snapshot) {
@@ -125,11 +123,11 @@ class PinderWelcome extends Component {
     )
   }
   _playBall(snapshot) {
-    console.log('Let\'s play ball with ' + snapshot.child("playerName").val());
+    console.log("Let's play ball with " + snapshot.child("playerName").val());
     this.state.responses.push({player: this.state.request_key, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
     return;
   }
-  updateText(event) {
+  updatePlayerName(event) {
     console.log(event.text)
     this.setState((state) => {
       return {
@@ -145,19 +143,16 @@ class PinderWelcome extends Component {
         <React.View style={styles.body}>
           <React.TextInput
             style={styles.nameField}
-            onBlur={(e) => this.updateText(e.nativeEvent)}
+            onBlur={(e) => this.updatePlayerName(e.nativeEvent)}
             defaultValue={this.state.playerName}
-            autoFocus={true}
-          />
+            autoFocus={true} />
           <Button
             style={{borderWidth:0, color: 'orange'}}
-            // onPress={this.onLaunchPressed.bind(this)}
             onPress={this.onButtonPressedJustEmojiModeTheReckoning.bind(this)}
             style={{justifyContent: 'center', alignItems: 'center'}}>
             <React.Image
               source={require('image!paddles-red')}
-              style={styles.introImage}
-            />
+              style={styles.introImage} />
           </Button>
           </React.View>
       </React.View>
@@ -172,7 +167,6 @@ var PinderMain = React.createClass({
     )
   }
 });
-
 
 var styles = StyleSheet.create({
   navigator: {
