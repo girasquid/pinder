@@ -68,6 +68,7 @@ class Welcome extends Component {
       players: playersURL,
       responses: responsesURL,
       request_key: "no push",
+      launch_time: new Date().getTime() / 1000,
     }
   }
   onLaunchPressed() {
@@ -83,15 +84,21 @@ class Welcome extends Component {
     }
     items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
     var item = items[Math.floor(Math.random()*items.length)];
-    this.state.request_key = this.state.players.push({player: item});
+    this.state.request_key = this.state.players.push({player: item, time: new Date().getTime() / 1000});
     this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
   _handleNewPlayer(snapshot) {
     if(snapshot.val() == "no push") {
+      console.log("No push!");
       return;
     }
     if(snapshot.key() == this.state.request_key) {
       console.log("It's ours! No response!");
+      return;
+    }
+    if(snapshot.child("time").val() < this.state.launch_time) {
+      console.log("Too old! Ignoring!");
+      return;
     }
     alert("Would you like to play with" + snapshot.child("player").val() + "?");
     // TODO pop up an alert where you decide to do it or not
