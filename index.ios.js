@@ -14,54 +14,107 @@ var {
   StyleSheet,
   Text,
   View,
+  Navigator,
   Component,
   TouchableOpacity,
   TouchableHighlight,
+  Image
 } = React;
 
 var Button = require('react-native-button');
 var firebaseURL = new Firebase("https://pinder-development.firebaseio.com/");
 var Camera = require('react-native-camera');
 
-var Pinder = React.createClass({
+var PinderCamera = React.createClass({
   getInitialState: function() {
-    firebaseURL.on("value", this._handleNewPlayer);
     return {
-      firebase: firebaseURL
-    }
+      value: '',
+      cameraType: Camera.constants.Type.front
+    };
   },
   render: function() {
     return (
-      <React.View style={styles.none}>
-        <React.Text style={styles.header}>Pinder</React.Text>
+      <React.View style={styles.container}>
+        <React.View>
+          <Camera
+            ref="cam"
+            aspect="Fill"
+            type="Back"
+            orientation="Portrait"
+            onScanned={this._onScannedResult}
+            style={styles.barcode}
+          />
+        </React.View>
+        <React.TouchableHighlight onPress={this._takePicture}>
+          <React.Text>Take Picture</React.Text>
+        </React.TouchableHighlight>
+      </React.View>
+    );
+  },
+  _takePicture() {
+    this.refs.cam.capture(function(err, data) {
+      this.props.navigator.pop();
+      console.log(err, data);
+    });
+  }
+});
 
+class Welcome extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  onLaunchPressed() {
+    this.props.navigator.push({
+      title: "Pinder",
+      component: PinderCamera,
+      passProps: {}
+    });
+  }
+  render() {
+    return (
+      <React.View style={styles.container}>
+        <React.Text style={styles.header}>Pinder</Text>
         <React.View style={styles.center}>
           <Button
             style={{borderWidth:0, color: 'orange'}}
-            onPress={this._handlePress}
+            onPress={this.onLaunchPressed.bind(this)}
             style={{justifyContent: 'center', alignItems: 'center'}}>
             <React.Image
               source={require('image!paddles-red')}
               style={styles.introImage}
             />
-          </Button>
+          </React.Button>
         </React.View>
       </React.View>
-
     );
-  },
+  }
+}
 
-  _handlePress(event) {
-    // console.log('David Bowie wants to play ball.');
-    this.state.firebase.push({player: "new player"});
-  },
+var PinderMain = React.createClass({
+  render: function() {
+    return (
+      <React.Navigator
+        style={styles.navigator}
+        initialRoute={{
+          title: 'Pinder!',
+          component: Welcome,
+        }}
+        renderScene={(route, navigator) => {
+          if (route.component) {
+            return React.createElement(route.component, { navigator });
+          }
+        }}
+      />
+    )
+  }
+});
 
-  _handleNewPlayer(snapshot) {
-    alert("DAVID BOWIE wants to play ball!");
-  },
-})
 
 var styles = StyleSheet.create({
+  navigator: {
+    flex: 1
+  },
   header: {
     fontSize: 96,
     textAlign: "center",
@@ -94,7 +147,13 @@ var styles = StyleSheet.create({
     width: 250,
     height: 156,
     flex: 1
+  },
+  barcode:{
+    justifyContent: 'center',
+    alignSelf: 'center',
+    height: 200,
+    width: 200,
   }
 });
 
-AppRegistry.registerComponent('Pinder', () => Pinder);
+AppRegistry.registerComponent('Pinder', () => PinderMain);
