@@ -36,13 +36,13 @@ var Pinder = React.createClass({
           />
         </Button>
       </React.View>
-    )
-  }
-
+      
+    );
+  },
+  
   _handlePress(event) {
     console.log('Dude wants to play ball.');
   }
-
 })
 
 var styles = StyleSheet.create({
