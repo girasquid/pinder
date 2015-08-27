@@ -39,7 +39,7 @@ var PinderCamera = React.createClass({
           <Camera
             ref="cam"
             aspect="Fill"
-            type="Back"
+            type="Front"
             orientation="Portrait"
             onScanned={this._onScannedResult}
             style={styles.body}
@@ -62,7 +62,10 @@ var PinderCamera = React.createClass({
 class Welcome extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      firebase: firebaseURL
+    }
+    this.state.firebase.on("value", this._handleNewPlayer);
   }
   onLaunchPressed() {
     this.props.navigator.push({
@@ -71,6 +74,21 @@ class Welcome extends Component {
       passProps: {}
     });
   }
+  onButtonPressedJustEmojiModeTheReckoning() {
+    items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
+    var item = items[Math.floor(Math.random()*items.length)];
+    // alert(item);
+    this.state.firebase.push({player: item});
+    // this.stage.firebase.push({player: })
+  }
+  _handleNewPlayer(snapshot) {
+    if(snapshot.val() == null) {
+      return;
+    }
+    console.log(snapshot.val());
+    console.log("child: " + snapshot.child("player").val());
+    alert(snapshot.child("player").val());
+  }
   render() {
     return (
       <React.View style={styles.container}>
@@ -78,7 +96,9 @@ class Welcome extends Component {
         <React.View style={styles.body}>
           <Button
             style={{borderWidth:0, color: 'orange'}}
-            onPress={this.onLaunchPressed.bind(this)}>
+            // onPress={this.onLaunchPressed.bind(this)}
+            onPress={this.onButtonPressedJustEmojiModeTheReckoning.bind(this)}
+            style={{justifyContent: 'center', alignItems: 'center'}}>
             <React.Image
               source={require('image!paddles-red')}
               style={styles.introImage}
