@@ -72,7 +72,8 @@ class Welcome extends Component {
       responses: responsesURL,
       request_key: "no push",
       launch_time: new Date().getTime() / 1000,
-      playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)]
+      playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)],
+      seen_alerts: []
     }
     this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
@@ -106,6 +107,11 @@ class Welcome extends Component {
       console.log("Too old! Ignoring!");
       return;
     }
+    if(this.state.seen_alerts.indexOf(snapshot.key()) != -1) {
+      console.log("Already seen this one!");
+      return;
+    }
+    this.state.seen_alerts.push(snapshot.key());
     React.AlertIOS.alert(
       "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
       snapshot.child("playerName").val(),
