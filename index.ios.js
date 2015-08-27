@@ -80,6 +80,7 @@ class Welcome extends Component {
   }
   onButtonPressedJustEmojiModeTheReckoning() {
     if(this.state.request_key != "no push") {
+      console.log("You have a request! No push!");
       return;
     }
     items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
