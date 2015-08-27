@@ -111,7 +111,9 @@ class Welcome extends Component {
     )
   }
   _playBall(snapshot) {
-    console.log("Let's play ball with" + snapshot.child("player").val());
+    console.log('Let\'s play ball with ' + snapshot.key());
+    this.state.responses.push({player: this.state.request_key, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
+    return;
   }
   _nextPlease(snapshot) {
     console.log(snapshot.child("player").val() + " smells like poop.");
