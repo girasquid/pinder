@@ -44,7 +44,7 @@ var Pinder = React.createClass({
   },
   
   _handlePress(event) {
-    console.log('Dude wants to play ball.');
+    console.log('David Bowie wants to play ball.');
   }
 })
 
