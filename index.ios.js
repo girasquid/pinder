@@ -66,7 +66,8 @@ class Welcome extends Component {
     super(props);
     this.state = {
       players: playersURL,
-      responses: responsesURL
+      responses: responsesURL,
+      request_key: "no push",
     }
   }
   onLaunchPressed() {
@@ -77,14 +78,20 @@ class Welcome extends Component {
     });
   }
   onButtonPressedJustEmojiModeTheReckoning() {
+    if(this.state.request_key != "no push") {
+      return;
+    }
     items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
     var item = items[Math.floor(Math.random()*items.length)];
-    this.state.players.push({player: item});
-    this.state.players.on("child_added", this._handleNewPlayer);
+    this.state.request_key = this.state.players.push({player: item});
+    this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
   _handleNewPlayer(snapshot) {
-    if(snapshot.val() == null) {
+    if(snapshot.val() == "no push") {
       return;
+    }
+    if(snapshot.key() == this.state.request_key) {
+      console.log("It's ours! No response!");
     }
     alert("Would you like to play with" + snapshot.child("player").val() + "?");
     // TODO pop up an alert where you decide to do it or not
