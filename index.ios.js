@@ -99,25 +99,33 @@ class Welcome extends Component {
       console.log("No push!");
       return;
     }
+    console.log("Done checking for no push")
+
     if(snapshot.key() == this.state.request_key) {
-      console.log("It's ours! No response!");
-      return;
+      console.log("It's ours! No response!")
+      return
     }
+    console.log("Done checking for our own request")
+
     if(snapshot.child("time").val() < this.state.launch_time) {
       console.log("Too old! Ignoring!");
       return;
     }
+    console.log("Done checking for an old response")
+
     if(this.state.seen_alerts.indexOf(snapshot.key()) != -1) {
       console.log("Already seen this one!");
       return;
     }
+    console.log("Done checking for duplicate request")
+
     this.state.seen_alerts.push(snapshot.key());
     React.AlertIOS.alert(
       "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
       snapshot.child("playerName").val(),
       [
         {text: '\u2764\uFE0F', onPress: () => this._playBall(snapshot)},
-        {text: '\uD83D\uDC94', onPress: () => this._nextPlease(snapshot)}
+        {text: '\uD83D\uDC94', onPress: () => console.log('Declining to play with ' + snapshot.child("playerName").val())}
       ]
     )
   }
@@ -125,9 +133,6 @@ class Welcome extends Component {
     console.log('Let\'s play ball with ' + snapshot.key());
     this.state.responses.push({player: this.state.request_key, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
     return;
-  }
-  _nextPlease(snapshot) {
-    console.log(snapshot.child("player").val() + " smells like poop.");
   }
   updateText(event) {
     console.log(event.text)
