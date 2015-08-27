@@ -41,7 +41,7 @@ var Pinder = React.createClass({
             onPress={this._handlePress}
             style={{justifyContent: 'center', alignItems: 'center'}}>
             <React.Image
-              source={require('image!paddle')}
+              source={require('image!paddles-red')}
               style={styles.introImage}
             />
           </Button>
@@ -91,8 +91,8 @@ var styles = StyleSheet.create({
     marginBottom: 5
   },
   introImage: {
-    width: 300,
-    height: 300,
+    width: 250,
+    height: 156,
     flex: 1
   }
 });
