@@ -41,6 +41,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>PoetsenOne-Regular.ttf</string>
+		<string>LucidaGrande.ttc</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>

@@ -13,7 +13,9 @@ var {
   StyleSheet,
   Text,
   View,
-  Component
+  Component,
+  TouchableOpacity,
+  TouchableHighlight,
 } = React;
 
 class Pinder extends Component
@@ -25,20 +27,12 @@ class Pinder extends Component
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Pinder</Text>
-
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <React.View style={styles.container}>
+        <React.Text style={styles.header}>Pinder</React.Text>
+        <React.TouchableHighlight>
+          <React.Text style={styles.button}>play ball!</React.Text>
+        </React.TouchableHighlight>
+      </React.View>
     );
   }
 }
@@ -47,16 +41,22 @@ var styles = StyleSheet.create({
   header: {
     fontSize: 96,
     textAlign: "center",
-    margin: 10,
     fontFamily: "Poetsen One",
     // textTransform: "capitalize",
+    backgroundColor: "#FFA500",
+    color: "#333333"
   },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+  button: {
+    fontSize: 48,
+    textAlign: "center",
+    fontFamily: "Lucida Grande",
   },
+  // container: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: '#F5FCFF'
+  // },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
