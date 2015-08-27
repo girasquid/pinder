@@ -20,14 +20,9 @@ var {
 
 var Button = require('react-native-button');
 
-class Pinder extends Component
-{
-  constructor(props: Object) {
-    super(props);
-    this.state = {};
-  }
+var Pinder = React.createClass({
 
-  render() {
+  render: function() {
     return (
       <React.View style={styles.container}>
         <React.Text style={styles.header}>Pinder</React.Text>
@@ -41,14 +36,14 @@ class Pinder extends Component
           />
         </Button>
       </React.View>
-    );
+    )
   }
 
   _handlePress(event) {
     console.log('Dude wants to play ball.');
   }
 
-}
+})
 
 var styles = StyleSheet.create({
   header: {
