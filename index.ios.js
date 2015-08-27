@@ -9,6 +9,8 @@
 import React from 'react-native';
 import Firebase from 'firebase';
 
+var defaultNames = ["Agaro", "Arnan", "Auxlan", "Avamir", "Baelnar", "Balfam", "Bariken", "Borkûl", "Darkûl", "Dolmen", "Dyrnar", "Erag", "Ezegan", "Ferrek", "Garmûl", "Glint", "Ghorvas", "Grimmalk", "Haeltar", "Halagmar", "Halzar", "Hlant", "Korlag", "Krag", "Krim", "Kurman", "Lurtrum", "Malagar", "Mardam", "Maulnar", "Melgar", "Morak", "Orobok", "Rogath", "Roken", "Rozag", "Sabakzar", "Sharak", "Smethykk", "Swargar", "Thorbalt", "Thorin", "Tredigar", "Vabûl", "Vistrum", "Wolvar", "Beyla", "Fenryl", "Grenenzel", "Krystolari", "Lokara", "Lurka", "Marnia", "Praxana", "Rokel", "Roksana", "Thurlfara", "Vauldra", "Veklani", "Vronwe", "Zebel", "Ambershard", "Barrelhelm", "Copperhearth", "Deepmiddens", "Drakantal", "Evermead", "Garkalan", "Grimtor", "Hackshield", "Irongull", "Markolak", "Ramcrown", "Rockharvest", "Silvertarn", "Skandalor", "Zarkanan"]
+
 var {
   AppRegistry,
   StyleSheet,
@@ -135,6 +137,12 @@ class Welcome extends Component {
       <React.View style={styles.container}>
         <React.Text style={styles.header}>Pinder</React.Text>
         <React.View style={styles.body}>
+          <React.TextInput
+            style={styles.nameField}
+            onBlur={(e) => this.updateText(e.nativeEvent)}
+            defaultValue={defaultNames[Math.floor(Math.random()*defaultNames.length)]}
+            autoFocus={true}
+          />
           <Button
             style={{borderWidth:0, color: 'orange'}}
             // onPress={this.onLaunchPressed.bind(this)}
@@ -145,13 +153,7 @@ class Welcome extends Component {
               style={styles.introImage}
             />
           </Button>
-        <React.TextInput
-          style={styles.nameField}
-          onBlur={(e) => this.updateText(e.nativeEvent)}
-          value={this.state.text}
-          autoFocus={true}
-        />
-        </React.View>
+          </React.View>
       </React.View>
     );
   }
@@ -216,12 +218,9 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: "Poetsen One",
-    fontSize: 36,
+    fontSize: 30,
     width: 400,
-    height: 60,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    marginTop: 30
+    height: 60
   }
 });
 
