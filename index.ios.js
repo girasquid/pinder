@@ -64,7 +64,7 @@ var PinderCamera = React.createClass({
   }
 });
 
-class Welcome extends Component {
+class PinderWelcome extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -168,18 +168,7 @@ class Welcome extends Component {
 var PinderMain = React.createClass({
   render: function() {
     return (
-      <React.Navigator
-        style={styles.navigator}
-        initialRoute={{
-          title: 'Pinder!',
-          component: Welcome,
-        }}
-        renderScene={(route, navigator) => {
-          if (route.component) {
-            return React.createElement(route.component, { navigator });
-          }
-        }}
-      />
+      <PinderWelcome />
     )
   }
 });
