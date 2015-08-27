@@ -26,6 +26,8 @@ class Pinder extends Component
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.header}>Pinder</Text>
+
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -42,6 +44,13 @@ class Pinder extends Component
 }
 
 var styles = StyleSheet.create({
+  header: {
+    fontSize: 96,
+    textAlign: "center",
+    margin: 10,
+    fontFamily: "Poetsen One",
+    // textTransform: "capitalize",
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
