@@ -75,7 +75,6 @@ class Welcome extends Component {
       playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)],
       seen_alerts: []
     }
-    this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
   onLaunchPressed() {
     this.props.navigator.push({
@@ -99,25 +98,21 @@ class Welcome extends Component {
       console.log("No push!");
       return;
     }
-    console.log("Done checking for no push")
 
     if(snapshot.key() == this.state.request_key) {
       console.log("It's ours! No response!")
       return
     }
-    console.log("Done checking for our own request")
 
     if(snapshot.child("time").val() < this.state.launch_time) {
       console.log("Too old! Ignoring!");
       return;
     }
-    console.log("Done checking for an old response")
 
     if(this.state.seen_alerts.indexOf(snapshot.key()) != -1) {
       console.log("Already seen this one!");
       return;
     }
-    console.log("Done checking for duplicate request")
 
     this.state.seen_alerts.push(snapshot.key());
     React.AlertIOS.alert(
