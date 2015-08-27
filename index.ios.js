@@ -74,7 +74,7 @@ class Welcome extends Component {
   render() {
     return (
       <React.View style={styles.container}>
-        <React.Text style={styles.header}>Pinder</Text>
+        <React.Text style={styles.header}>Pinder</React.Text>
         <React.View style={styles.center}>
           <Button
             style={{borderWidth:0, color: 'orange'}}
@@ -84,7 +84,7 @@ class Welcome extends Component {
               source={require('image!paddles-red')}
               style={styles.introImage}
             />
-          </React.Button>
+          </Button>
         </React.View>
       </React.View>
     );
