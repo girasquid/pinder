@@ -125,7 +125,7 @@ class Welcome extends Component {
     )
   }
   _playBall(snapshot) {
-    console.log('Let\'s play ball with ' + snapshot.key());
+    console.log('Let\'s play ball with ' + snapshot.child("playerName").val());
     this.state.responses.push({player: this.state.request_key, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
     return;
   }
