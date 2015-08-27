@@ -72,7 +72,7 @@ class Welcome extends Component {
       responses: responsesURL,
       request_key: "no push",
       launch_time: new Date().getTime() / 1000,
-      playerName: ""
+      playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)
     }
     this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
@@ -140,7 +140,7 @@ class Welcome extends Component {
           <React.TextInput
             style={styles.nameField}
             onBlur={(e) => this.updateText(e.nativeEvent)}
-            defaultValue={defaultNames[Math.floor(Math.random()*defaultNames.length)]}
+            defaultValue={this.state.playerName]}
             autoFocus={true}
           />
           <Button
