@@ -21,6 +21,7 @@ var {
 
 var Button = require('react-native-button');
 var firebaseURL = new Firebase("https://pinder-development.firebaseio.com/");
+var Camera = require('react-native-camera');
 
 var Pinder = React.createClass({
   getInitialState: function() {
