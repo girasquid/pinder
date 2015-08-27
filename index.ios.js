@@ -18,7 +18,8 @@ var {
   Component,
   TouchableOpacity,
   TouchableHighlight,
-  Image
+  Image,
+  TextInput
 } = React;
 
 var Button = require('react-native-button');
@@ -69,6 +70,7 @@ class Welcome extends Component {
       responses: responsesURL,
       request_key: "no push",
       launch_time: new Date().getTime() / 1000,
+      playerName: ""
     }
     this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
@@ -86,7 +88,8 @@ class Welcome extends Component {
     }
     items = ['\uD83D\uDCA9', "\uD83D\uDD05", "\uD83D\uDCC3", "\uD83D\uDC27", "\uD83C\uDF61", "\uD83C\uDF62", "\uD83C\uDF63", "\u2614\uFE0F", "\u203C\uFE0F", "\u2049\uFE0F"];
     var item = items[Math.floor(Math.random()*items.length)];
-    this.state.request_key = this.state.players.push({player: item, time: new Date().getTime() / 1000}).key();
+    this.state.request_key = this.state.players.push({playerName: this.state.playerName, player: item, time: new Date().getTime() / 1000}).key();
+    this.state.players.on("child_added", this._handleNewPlayer.bind(this));
   }
   _handleNewPlayer(snapshot) {
     if(snapshot.val() == "no push") {
@@ -118,6 +121,14 @@ class Welcome extends Component {
   _nextPlease(snapshot) {
     console.log(snapshot.child("player").val() + " smells like poop.");
   }
+  updateText(event) {
+    console.log(event.text)
+    this.setState((state) => {
+      return {
+        playerName: event.text
+      };
+    });
+  }
 
   render() {
     return (
@@ -134,6 +145,12 @@ class Welcome extends Component {
               style={styles.introImage}
             />
           </Button>
+        <React.TextInput
+          style={styles.nameField}
+          onBlur={(e) => this.updateText(e.nativeEvent)}
+          value={this.state.text}
+          autoFocus={true}
+        />
         </React.View>
       </React.View>
     );
@@ -194,6 +211,17 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     height: 200,
     width: 200,
+  },
+  nameField: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontFamily: "Poetsen One",
+    fontSize: 36,
+    width: 400,
+    height: 60,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    marginTop: 30
   }
 });
 
