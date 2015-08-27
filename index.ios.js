@@ -24,17 +24,20 @@ var Pinder = React.createClass({
 
   render: function() {
     return (
-      <React.View style={styles.container}>
+      <React.View style={styles.none}>
         <React.Text style={styles.header}>Pinder</React.Text>
 
-        <Button
-          style={{borderWidth:1, color: 'orange'}}
-          onPress={this._handlePress}>
-          <React.Image
-            source={require('image!paddle')}
-            style={{justifyContent: 'center', alignItems: 'center', width:200, height:200}}
-          />
-        </Button>
+        <React.View style={styles.center}>
+          <Button
+            style={{borderWidth:0, color: 'orange'}}
+            onPress={this._handlePress}
+            style={{justifyContent: 'center', alignItems: 'center'}}>
+            <React.Image
+              source={require('image!paddle')}
+              style={styles.introImage}
+            />
+          </Button>
+        </React.View>
       </React.View>
       
     );
@@ -59,12 +62,11 @@ var styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Lucida Grande",
   },
-  // container: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: '#F5FCFF'
-  // },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
@@ -74,6 +76,11 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5
+  },
+  introImage: {
+    width: 300,
+    height: 300,
+    flex: 1
   }
 });
 
