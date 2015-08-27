@@ -18,6 +18,8 @@ var {
   TouchableHighlight,
 } = React;
 
+var Button = require('react-native-button');
+
 class Pinder extends Component
 {
   constructor(props: Object) {
@@ -29,12 +31,23 @@ class Pinder extends Component
     return (
       <React.View style={styles.container}>
         <React.Text style={styles.header}>Pinder</React.Text>
-        <React.TouchableHighlight>
-          <React.Text style={styles.button}>play ball!</React.Text>
-        </React.TouchableHighlight>
+
+        <Button
+          style={{borderWidth:1, color: 'orange'}}
+          onPress={this._handlePress}>
+          <React.Image
+            source={require('image!paddle')}
+            style={{justifyContent: 'center', alignItems: 'center', width:200, height:200}}
+          />
+        </Button>
       </React.View>
     );
   }
+
+  _handlePress(event) {
+    console.log('Dude wants to play ball.');
+  }
+
 }
 
 var styles = StyleSheet.create({

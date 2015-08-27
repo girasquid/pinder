@@ -9,6 +9,7 @@
     "babel-eslint": "^4.1.0",
     "eslint": "^1.2.1",
     "eslint-plugin-react": "^3.3.0",
-    "react-native": "^0.10.0"
+    "react-native": "^0.10.0",
+    "react-native-button": "^1.2.1"
   }
 }
