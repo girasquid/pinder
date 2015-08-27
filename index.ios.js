@@ -83,6 +83,9 @@ class Welcome extends Component {
     if(snapshot.val() == null) {
       return;
     }
+    alert(snapshot.child("player").val());
+    // TODO pop up an alert where you decide to do it or not
+
   }
   render() {
     return (
