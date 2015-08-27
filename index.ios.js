@@ -18,14 +18,10 @@ var {
   TouchableHighlight,
 } = React;
 
-class Pinder extends Component
-{
-  constructor(props: Object) {
-    super(props);
-    this.state = {};
-  }
 
-  render() {
+var Pinder = React.createClass({
+
+  render: function() {
     return (
       <React.View style={styles.container}>
         <React.Text style={styles.header}>Pinder</React.Text>
@@ -33,9 +29,9 @@ class Pinder extends Component
           <React.Text style={styles.button}>play ball!</React.Text>
         </React.TouchableHighlight>
       </React.View>
-    );
+    )
   }
-}
+})
 
 var styles = StyleSheet.create({
   header: {
