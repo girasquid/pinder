@@ -105,16 +105,16 @@ class Welcome extends Component {
       "Found a match!",
       snapshot.child("player").val() + ' wants to play ball!',
       [
-        {text: '\u2764\uFE0F', onPress: () => this._playBall},
-        {text: '\uD83D\uDC94', onPress: () => this._nextPlease}
+        {text: '\u2764\uFE0F', onPress: () => this._playBall(snapshot)},
+        {text: '\uD83D\uDC94', onPress: () => this._nextPlease(snapshot)}
       ]
     )
   }
   _playBall(snapshot) {
-    console.log("Let's play ball");
+    console.log("Let's play ball with" + snapshot.child("player").val());
   }
   _nextPlease(snapshot) {
-    console.log("No thanks");
+    console.log(snapshot.child("player").val() + " smells like poop.");
   }
 
   render() {
