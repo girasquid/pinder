@@ -48,7 +48,8 @@ var ChallengeAccepted = React.createClass({
   render: function() {
     return (
       <React.View style={styles.container}>
-        <Header />
+        <React.View>
+        <React.Text style={styles.header}>Pinder</React.Text>
         <React.View style={styles.body}>
           <React.Text style={styles.nameField}>{this.props.name}</React.Text>
           <NavButton
@@ -56,11 +57,11 @@ var ChallengeAccepted = React.createClass({
             srcImage={require('image!paddles-black')} />
           <React.Text style={styles.nameField}>vs.</React.Text>
           <React.Text style={styles.nameField}>{this.props.opponent}</React.Text>
+          </React.View>
         </React.View>
       </React.View>
     );
   },
-
   stopChallengeAccepted: function() {
     var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + this.props.request_key);
     playersRef.set(null);
