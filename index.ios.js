@@ -92,6 +92,7 @@ var PinderWelcome = React.createClass({
       players: playersURL,
       responses: responsesURL,
       request_key: "no push",
+      playerIdentifier: Math.random() * 10000000000000000,
       playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)],
       seen_alerts: [],
       dataSource: new ListView.DataSource({
@@ -113,7 +114,7 @@ var PinderWelcome = React.createClass({
       console.log("You have a request! No push!");
       return;
     }
-    this.state.request_key = this.state.players.push({playerName: this.state.playerName}).key();
+    this.state.request_key = this.state.players.push({playerName: this.state.playerName, playerIdentifier: this.state.playerIdentifier}).key();
     this.state.responses.on("child_added", this._handleRespondingPartner)
   },
 
@@ -145,7 +146,7 @@ var PinderWelcome = React.createClass({
   },
 
   _addToList: function(snapshot) {
-    if(snapshot.key() == this.state.request_key) {
+    if(snapshot.child("playerIdentifier").val() == this.state.playerIdentifier) {
       console.log("Ignoring our own play request")
       return
     }
