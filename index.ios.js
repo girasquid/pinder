@@ -139,16 +139,24 @@ var PinderWelcome = React.createClass({
   },
 
   _updateList: function(snapshot) {
-    this.state.rows.push(snapshot.child("playerName").val())
+    this.state.rows.push(snapshot)
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
     })
   },
 
-  renderPlayer: function(player) {
+  renderPlayer: function(snapshot) {
     return (
       <View style={styles.container}>
-        <Text>😡 {player} 😡</Text>
+        <TouchableHighlight
+          onPress={() => this._playBall(snapshot)}>
+          <Text>Play!</Text>
+        </TouchableHighlight>
+        <Text>😡 {snapshot.child("playerName").val()} 😡</Text>
+        <TouchableHighlight
+          onPress={() => console.log('Declining to play with ' + snapshot.child("playerName").val())}>
+          <Text>Get Lost!</Text>
+        </TouchableHighlight>
       </View>
     );
   },
