@@ -8,6 +8,7 @@
 
 import React from 'react-native';
 import Firebase from 'firebase';
+import AudioPlayer from 'react-native-audioplayer';
 
 var defaultNames = ["Agaro", "Arnan", "Auxlan", "Avamir", "Baelnar", "Balfam", "Bariken", "Borkûl", "Darkûl", "Dolmen", "Dyrnar", "Erag", "Ezegan", "Ferrek", "Garmûl", "Glint", "Ghorvas", "Grimmalk", "Haeltar", "Halagmar", "Halzar", "Hlant", "Korlag", "Krag", "Krim", "Kurman", "Lurtrum", "Malagar", "Mardam", "Maulnar", "Melgar", "Morak", "Orobok", "Rogath", "Roken", "Rozag", "Sabakzar", "Sharak", "Smethykk", "Swargar", "Thorbalt", "Thorin", "Tredigar", "Vabûl", "Vistrum", "Wolvar", "Beyla", "Fenryl", "Grenenzel", "Krystolari", "Lokara", "Lurka", "Marnia", "Praxana", "Rokel", "Roksana", "Thurlfara", "Vauldra", "Veklani", "Vronwe", "Zebel", "Ambershard", "Barrelhelm", "Copperhearth", "Deepmiddens", "Drakantal", "Evermead", "Garkalan", "Grimtor", "Hackshield", "Irongull", "Markolak", "Ramcrown", "Rockharvest", "Silvertarn", "Skandalor", "Zarkanan"]
 
@@ -52,6 +53,8 @@ var ChallengeAccepted = React.createClass({
   },
 
   render: function() {
+    AudioPlayer.play("PukingOrFighting.mp3");
+    React.VibrationIOS.vibrate();
     return (
       <React.View style={styles.container}>
         <React.View>
@@ -101,7 +104,6 @@ var PinderWelcome = React.createClass({
       console.log("You have a request! No push!");
       return;
     }
-    React.VibrationIOS.vibrate();
     this.state.request_key = this.state.players.push({playerName: this.state.playerName}).key();
     this.state.responses.on("child_added", this._handleRespondingPartner)
   },
