@@ -141,7 +141,6 @@ var PinderWelcome = React.createClass({
     })
   },
 
-  renderPlayer: function(snapshot) {
 //  _removeFromList: function(snapshot) {
 //    index = this.state.rows.indexOf(snapshot.child("playerName").val())
 //    this.state.rows.splice(index, 1)
@@ -149,9 +148,8 @@ var PinderWelcome = React.createClass({
 //      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
 //    })
 //  }
-  },
 
-  renderPlayer: function(player) {
+  renderPlayer: function(snapshot) {
     return (
       <View style={styles.container}>
         <TouchableHighlight
