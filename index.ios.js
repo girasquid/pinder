@@ -47,14 +47,15 @@ var NavButton = React.createClass ({
 
 var ChallengeAccepted = React.createClass({
 
-  componentDidMount: function() {
-    var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + this.props.request_key);
+  removeFromFirebase: function(request_key) {
+    var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + request_key);
     playersRef.set(null);
   },
 
   render: function() {
     AudioPlayer.play("PukingOrFighting.mp3");
     React.VibrationIOS.vibrate();
+    this.removeFromFirebase(this.props.request_key)
     return (
       <React.View style={styles.container}>
         <React.View>
