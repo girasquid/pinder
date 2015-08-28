@@ -201,6 +201,7 @@ var PinderWelcome = React.createClass({
             onPress={this.onButtonPressedJustEmojiModeTheReckoning}
             srcImage={require('image!paddles-red')} />
           <ListView
+            automaticallyAdjustContentInsets={false}
             dataSource={this.state.dataSource}
             renderRow={this.renderPlayer}
             style={styles.listView}
