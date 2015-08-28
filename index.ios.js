@@ -171,7 +171,7 @@ var PinderWelcome = React.createClass({
     })
   },
 
-  renderPlayer: function(rowData) {
+  renderPlayer: function(rowData: string, rowID: number) {
     return (
       <View style={styles.playerRowContainerView}>
         <TouchableHighlight
