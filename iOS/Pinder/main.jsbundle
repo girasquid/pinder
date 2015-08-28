@@ -1568,7 +1568,7 @@ loaded:true});},
 
 
 
-renderPlayer:function(rowData){var _this2=this;
+renderPlayer:function(rowData,rowID){var _this2=this;
 return (
 _reactNative2.default.createElement(View,{style:styles.playerRowContainerView},
 _reactNative2.default.createElement(TouchableHighlight,{
