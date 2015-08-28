@@ -37,7 +37,7 @@ var NavButton = React.createClass ({
         underlayColor="#FEFEFE">
         <React.Image
           source={this.props.srcImage}
-          style={styles.introImage} />
+          style={styles.paddles} />
       </TouchableHighlight>
     );
   }
@@ -153,7 +153,7 @@ var PinderWelcome = React.createClass({
             autoFocus={true} />
           <NavButton
             onPress={this.onButtonPressedJustEmojiModeTheReckoning}
-            srcImage={require('image!paddles-red')} />
+            srcImage={require('image!paddles-black')} />
         </React.View>
       </React.View>
     );
@@ -203,11 +203,11 @@ var styles = StyleSheet.create({
   },
   body: {
     flex: 80,
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 100
+    alignItems: 'center'
   },
-  introImage: {
+  paddles: {
     flex: 1,
     width: 250,
     height: 156
