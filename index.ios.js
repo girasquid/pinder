@@ -309,10 +309,9 @@ var styles = StyleSheet.create({
   },
   listView: {
     flex: 1,
-    alignSelf: "center",
+    alignSelf: "stretch",
     paddingTop: 5,
     paddingBottom: 40,
-    width: 375
   },
   playerRow: {
     flex: 1,
