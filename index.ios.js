@@ -93,46 +93,19 @@ var PinderWelcome = React.createClass({
       players: playersURL,
       responses: responsesURL,
       request_key: "no push",
-      launch_time: new Date().getTime() / 1000,
       playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)],
-      seen_alerts: []
     }
   },
 
   onButtonPressedJustEmojiModeTheReckoning: function() {
     React.VibrationIOS.vibrate();
-    if(this.state.request_key != "no push") {
-      console.log("You have a request! No push!");
-      return;
-    }
-    this.state.request_key = this.state.players.push({playerName: this.state.playerName, time: new Date().getTime() / 1000}).key();
+    this.state.request_key = this.state.players.push({playerName: this.state.playerName}).key();
     this.state.players.on("child_added", this._handleNewPlayer);
     this.state.responses.on("child_added", this._handleRespondingPartner)
     this.nextPage()
   },
 
   _handleNewPlayer: function(snapshot) {
-    if(snapshot.val() == "no push") {
-      console.log("No push!");
-      return;
-    }
-
-    if(snapshot.key() == this.state.request_key) {
-      console.log("It's ours! No response!")
-      return
-    }
-
-    if(snapshot.child("time").val() < this.state.launch_time) {
-      console.log("Too old! Ignoring!");
-      return;
-    }
-
-    if(this.state.seen_alerts.indexOf(snapshot.key()) != -1) {
-      console.log("Already seen this one!");
-      return;
-    }
-
-    this.state.seen_alerts.push(snapshot.key());
     React.AlertIOS.alert(
       "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
       snapshot.child("playerName").val(),
