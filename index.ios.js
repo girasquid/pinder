@@ -92,13 +92,19 @@ var WaitingForMatch = React.createClass({
         <React.View style={styles.body}>
           <React.Text style={styles.nameField}>{this.state.name}</React.Text>
           <NavButton
-            onPress={this.props.nav.pop}
+            onPress={this.stopWaitingForMatch}
             srcImage={require('image!paddles-black')} />
           <React.Text style={styles.nameField}>vs.</React.Text>
           <React.Text style={styles.nameField}>Them</React.Text>
         </React.View>
       </React.View>
     );
+  },
+
+  stopWaitingForMatch: function() {
+    var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + this.props.request_key);
+    playersRef.set(null);
+    this.props.nav.pop();
   }
 });
 
@@ -113,7 +119,9 @@ var Header = React.createClass({
 var PinderWelcome = React.createClass({
 
   nextPage: function() {
-    this.props.nav.push({ id: 'waiting', name: this.state.playerName })
+    var key = this.state.request_key;
+    this.state.request_key = "no push";
+    this.props.nav.push({ id: 'waiting', name: this.state.playerName, request_key: key })
   },
 
   getInitialState: function() {
@@ -218,7 +226,7 @@ var PinderMain = React.createClass({
   renderSceneMethod: function(route, nav) {
     switch (route.id) {
       case 'waiting':
-        return <WaitingForMatch nav={nav} name={route.name} />;
+        return <WaitingForMatch nav={nav} name={route.name} request_key={route.request_key} />;
       default:
         return <PinderWelcome nav={nav} />
     }
