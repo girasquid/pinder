@@ -189,6 +189,8 @@ var PinderWelcome = React.createClass({
       return this.renderLoadingView();
     }
 
+    if(this.state.dataSource)
+
     return (
       <React.View style={styles.container}>
         <React.View>
@@ -258,12 +260,6 @@ var styles = StyleSheet.create({
     flex: 1,
     width: 250,
     height: 156
-  },
-  barcode:{
-    justifyContent: 'center',
-    alignSelf: 'center',
-    height: 200,
-    width: 200,
   },
   nameField: {
     alignSelf: 'center',
