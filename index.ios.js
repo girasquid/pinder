@@ -145,12 +145,12 @@ var PinderWelcome = React.createClass({
 
   renderPlayer: function(snapshot) {
     return (
-      <View style={styles.container}>
+      <View>
         <TouchableHighlight
           onPress={() => this._playBall(snapshot)}>
           <Text>Play!</Text>
         </TouchableHighlight>
-        <Text>😡 {snapshot.child("playerName").val()} 😡</Text>
+        <Text style={styles.playerRow}>😡 {snapshot.child("playerName").val()} 😡</Text>
         <TouchableHighlight
           onPress={() => console.log('Declining to play with ' + snapshot.child("playerName").val())}>
           <Text>Get Lost!</Text>
