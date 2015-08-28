@@ -95,16 +95,16 @@ var PinderWelcome = React.createClass({
       playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)],
       seen_alerts: [],
       dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
+        rowHasChanged: (row1, row2) => true,
       }),
       rows: [],
       loaded: false
     }
   },
 
-  nextPage: function(snapshot) {
+  nextPage: function(playerData) {
     var key = this.state.request_key;
-    this.props.nav.push({ id: 'challenge_accepted', name: this.state.playerName, opponent: snapshot.child("playerName").val(), request_key: key })
+    this.props.nav.push({ id: 'challenge_accepted', name: this.state.playerName, opponent: playerData.playerName, request_key: key })
     this.setState({request_key: 'no push'})
   },
 
@@ -120,14 +120,14 @@ var PinderWelcome = React.createClass({
   _handleRespondingPartner: function(snapshot) {
     if(snapshot.child("partner").val() == this.state.request_key) {
       console.log(snapshot.child("playerName").val() + " wants to play with us!")
-      this.nextPage(snapshot)
+      this.nextPage({playerName: snapshot.child("playerName").val(), resquestKey: snapshot.key()})
     }
   },
 
-  _playBall: function(snapshot) {
-    console.log('Let\'s play ball with ' + snapshot.child("playerName").val());
-    this.state.responses.push({playerName: this.state.playerName, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
-    this.nextPage(snapshot)
+  _playBall: function(rowData) {
+    console.log('Let\'s play ball with ' + rowData.playerName);
+    this.state.responses.push({playerName: this.state.playerName, partner: rowData.requestKey, time: new Date().getTime() / 1000}).key();
+    this.nextPage(rowData)
   },
 
   updatePlayerName: function(event) {
@@ -150,11 +150,15 @@ var PinderWelcome = React.createClass({
       return
     }
 
-    console.log(this.state.request_key + " vs. " + snapshot.key())
+    var newRows = this.state.rows
+    newRows.unshift({
+      playerName: snapshot.child("playerName").val(),
+      requestKey: snapshot.key()
+    })
 
-    this.state.rows.unshift(snapshot)
+    this.setState({rows: newRows})
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.state.rows),
+      dataSource: this.state.dataSource.cloneWithRows(newRows),
       loaded: true
     })
   },
@@ -167,7 +171,7 @@ var PinderWelcome = React.createClass({
     })
   },
 
-  renderPlayer: function(rowData: string, sectionID: number, rowID: number) {
+  renderPlayer: function(rowData) {
     return (
       <View style={styles.playerRowContainerView}>
         <TouchableHighlight
@@ -175,7 +179,7 @@ var PinderWelcome = React.createClass({
           <Text style={styles.leftPlayButton}>👍</Text>
         </TouchableHighlight>
         <View style={styles.playerRowContainer}>
-          <Text suppressHighlighting={false} style={styles.playerRow}>{rowData.child("playerName").val()}</Text>
+          <Text suppressHighlighting={false} style={styles.playerRow}>{rowData.playerName}</Text>
         </View>
         <TouchableHighlight
           onPress={() => this._removeFromList(rowID)}>
