@@ -261,11 +261,11 @@ var styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "center",
     paddingTop: 5,
+    paddingBottom: 40,
     width: 375,
     backgroundColor: '#F5FCFF',
   },
   playerRow: {
-    // flex: 2,
     fontFamily: "Poetsen One",
     fontSize: 48,
     flexDirection: "row",
