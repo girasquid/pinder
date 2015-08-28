@@ -127,10 +127,14 @@ var PinderWelcome = React.createClass({
   },
 
   componentDidMount: function() {
-    this.state.players.on("child_added", this._updateList);
+    this.state.players.on("child_added", this._addToList);
+//    this.state.players.on("child_removed", this._removeFromList);
   },
 
-  _updateList: function(snapshot) {
+  _addToList: function(snapshot) {
+    if(snapshot.key() == this.state.request_key) {
+      return
+    }
     this.state.rows.push(snapshot)
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
@@ -138,6 +142,15 @@ var PinderWelcome = React.createClass({
   },
 
   renderPlayer: function(snapshot) {
+//  _removeFromList: function(snapshot) {
+//    index = this.state.rows.indexOf(snapshot.child("playerName").val())
+//    this.state.rows.splice(index, 1)
+//    this.setState({
+//      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
+//    })
+//  }
+
+  renderPlayer: function(player) {
     return (
       <View style={styles.container}>
         <TouchableHighlight
