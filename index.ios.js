@@ -131,6 +131,7 @@ var PinderWelcome = React.createClass({
 
   _addToList: function(snapshot) {
     if(snapshot.key() == this.state.request_key) {
+      console.log("Ignoring our own play request")
       return
     }
     this.state.rows.unshift(snapshot)
