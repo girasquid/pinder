@@ -148,7 +148,7 @@ var PinderWelcome = React.createClass({
   renderPlayer: function(player) {
     return (
       <View style={styles.container}>
-        <Text>\u2764\uFE0F {player} \uD83D\uDC94</Text>
+        <Text>😡 {player} 😡</Text>
       </View>
     );
   },
