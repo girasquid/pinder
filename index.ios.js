@@ -63,6 +63,21 @@ var PinderCamera = React.createClass({
   }
 });
 
+var NavButton = React.createClass ({
+  render: function() {
+    return (
+      <TouchableHighlight
+        onPress={this.props.onPress}
+        style={{justifyContent: 'center', alignItems: 'center'}}
+        underlayColor="#FEFEFE">
+        <React.Image
+          source={this.props.srcImage}
+          style={styles.introImage} />
+      </TouchableHighlight>
+    );
+  }
+})
+
 var WaitingForMatch = React.createClass({
   getInitialState: function() {
     return {
@@ -76,9 +91,9 @@ var WaitingForMatch = React.createClass({
         <Header />
         <React.View style={styles.body}>
           <React.Text style={styles.nameField}>{this.state.name}</React.Text>
-            <React.Image
-              source={require('image!paddles-black')}
-              style={styles.introImage} />
+          <NavButton
+            onPress={this.props.nav.pop}
+            srcImage={require('image!paddles-black')} />
           <React.Text style={styles.nameField}>vs.</React.Text>
           <React.Text style={styles.nameField}>Them</React.Text>
         </React.View>
@@ -181,10 +196,6 @@ var PinderWelcome = React.createClass({
   },
 
   render: function() {
-    if (this.state.request_key != "no push") {
-      return this.renderLoadingView();
-    }
-
     return (
       <React.View style={styles.container}>
         <Header />
@@ -194,14 +205,9 @@ var PinderWelcome = React.createClass({
             onBlur={(e) => this.updatePlayerName(e.nativeEvent)}
             defaultValue={this.state.playerName}
             autoFocus={true} />
-          <TouchableHighlight
+          <NavButton
             onPress={this.onButtonPressedJustEmojiModeTheReckoning}
-            style={{justifyContent: 'center', alignItems: 'center'}}
-            underlayColor="#FEFEFE">
-            <React.Image
-              source={require('image!paddles-red')}
-              style={styles.introImage} />
-          </TouchableHighlight>
+            srcImage={require('image!paddles-red')} />
         </React.View>
       </React.View>
     );
@@ -224,7 +230,7 @@ var PinderMain = React.createClass({
         style={styles.container}
         initialRoute={{component: PinderWelcome}}
         configureScene={(route) => {
-          return Navigator.SceneConfigs.FloatFromBottom;
+          return Navigator.SceneConfigs.FloatFromRight;
         }}
         renderScene={this.renderSceneMethod} />
     );
