@@ -93,6 +93,7 @@ var PinderWelcome = React.createClass({
   nextPage: function(snapshot) {
     var key = this.state.request_key;
     this.props.nav.push({ id: 'challenge_accepted', name: this.state.playerName, opponent: snapshot.child("playerName").val(), request_key: key })
+    this.setState({request_key: 'no push'})
   },
 
   onButtonPressedJustEmojiModeTheReckoning: function() {
@@ -293,18 +294,18 @@ var styles = StyleSheet.create({
   listView: {
     flex: 1,
     alignSelf: "center",
-    textAlign: "center",
     paddingTop: 5,
     paddingBottom: 40,
-    width: 375,
-    backgroundColor: '#F5FCFF',
+    width: 375
   },
   playerRow: {
     fontFamily: "Poetsen One",
-    fontSize: 48,
+    fontSize: 32,
     flexDirection: "row",
     flexWrap: "wrap",
     backgroundColor: "white",
+    paddingBottom: 20,
+    paddingTop: 20
   },
   playerRowContainer: {
     flex: 2,
