@@ -45,6 +45,12 @@ var NavButton = React.createClass ({
 })
 
 var ChallengeAccepted = React.createClass({
+
+  componentDidMount: function() {
+    var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + this.props.request_key);
+    playersRef.set(null);
+  },
+
   render: function() {
     return (
       <React.View style={styles.container}>
@@ -63,8 +69,6 @@ var ChallengeAccepted = React.createClass({
     );
   },
   stopChallengeAccepted: function() {
-    var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + this.props.request_key);
-    playersRef.set(null);
     this.props.nav.pop();
   }
 });
@@ -103,12 +107,8 @@ var PinderWelcome = React.createClass({
 
   _handleRespondingPartner: function(snapshot) {
     if(snapshot.child("partner").val() == this.state.request_key) {
-      React.AlertIOS.alert(
-        "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
-        snapshot.child("playerName").val(),
-        [{text: '\uD83C\uDF8A'}]
-      )
       console.log(snapshot.child("playerName").val() + " wants to play with us!")
+      this.nextPage(snapshot)
     }
   },
 
@@ -119,16 +119,17 @@ var PinderWelcome = React.createClass({
   },
 
   updatePlayerName: function(event) {
-    this.setState((state) => {
-      return {
-        playerName: event.text
-      };
-    });
+    this.setState({playerName: event.text})
   },
 
   componentDidMount: function() {
     this.state.players.on("child_added", this._addToList);
     this.state.players.on("child_removed", this._removeFromList);
+
+    setTimeout(() => {
+      this.setState({loaded: true})
+      this.render()
+    }, 1000) ;
   },
 
   _addToList: function(snapshot) {
