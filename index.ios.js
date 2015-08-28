@@ -122,7 +122,7 @@ var PinderWelcome = React.createClass({
 
   componentDidMount: function() {
     this.state.players.on("child_added", this._addToList);
-//    this.state.players.on("child_removed", this._removeFromList);
+    this.state.players.on("child_removed", this._removeFromList);
   },
 
   _addToList: function(snapshot) {
@@ -130,6 +130,14 @@ var PinderWelcome = React.createClass({
       return
     }
     this.state.rows.push(snapshot)
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
+    })
+  },
+
+  _removeFromList: function(snapshot) {
+    index = this.state.rows.indexOf(snapshot.child("playerName").val())
+    this.state.rows.splice(index, 1)
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
     })
