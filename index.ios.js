@@ -81,7 +81,8 @@ var PinderWelcome = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      rows: []
+      rows: [],
+      loaded: false
     }
   },
 
@@ -135,9 +136,11 @@ var PinderWelcome = React.createClass({
       console.log("Ignoring our own play request")
       return
     }
+
     this.state.rows.unshift(snapshot)
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
+      dataSource: this.state.dataSource.cloneWithRows(this.state.rows),
+      loaded: true
     })
   },
 
@@ -145,7 +148,8 @@ var PinderWelcome = React.createClass({
     index = this.state.rows.indexOf(snapshot.child("playerName").val())
     this.state.rows.splice(index, 1)
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
+      dataSource: this.state.dataSource.cloneWithRows(this.state.rows),
+      loaded: true
     })
   },
 
@@ -167,7 +171,23 @@ var PinderWelcome = React.createClass({
     );
   },
 
+  renderLoadingView: function() {
+    return(
+      <React.View style={styles.container}>
+        <React.View>
+          <React.Text style={styles.header}>Pinder</React.Text>
+          <React.Text style={styles.nameField}>Loading...</React.Text>
+        </React.View>
+      </React.View>
+    )
+  },
+
   render: function() {
+
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
+
     return (
       <React.View style={styles.container}>
         <React.View>
