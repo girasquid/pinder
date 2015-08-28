@@ -1395,7 +1395,7 @@ throw new TypeError(
 
 var index=findIndex.call(this,predicate,context);
 return index === -1?undefined:this[index];}});}})();
-__d('Pinder/index.ios.js',["image!paddles-black","image!paddles-red","image!paddles-red","react-native/Libraries/react-native/react-native.js","firebase/lib/firebase-web.js","react-native-audioplayer/AudioPlayer.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}var _reactNative=require(
+__d('Pinder/index.ios.js',["image!paddles-black","image!paddles-red","image!paddles-red","react-native/Libraries/react-native/react-native.js","firebase/lib/firebase-web.js","react-native-audioplayer/AudioPlayer.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var _reactNative=require(
 
 
 
@@ -1425,10 +1425,10 @@ TextInput=_reactNative2.default.TextInput;
 
 var FIREBASE_URL_PREFIX="https://pinder-development.firebaseio.com/";
 var playersURL=new _firebase2.default(FIREBASE_URL_PREFIX + "players");
-var responsesURL=new _firebase2.default(FIREBASE_URL_PREFIX + "responses");
+var responsesURL=new _firebase2.default(FIREBASE_URL_PREFIX + "responses");var 
 
-var NavButton=_reactNative2.default.createClass({
-render:function(){
+NavButton=(function(_Component){_inherits(NavButton,_Component);function NavButton(){_classCallCheck(this,NavButton);_get(Object.getPrototypeOf(NavButton.prototype),'constructor',this).apply(this,arguments);}_createClass(NavButton,[{key:'render',value:
+function render(){
 return (
 _reactNative2.default.createElement(TouchableHighlight,{
 onPress:this.props.onPress,
@@ -1436,7 +1436,7 @@ style:{justifyContent:'center',alignItems:'center'},
 underlayColor:'#FEFEFE'},
 _reactNative2.default.createElement(_reactNative2.default.Image,{
 source:this.props.srcImage,
-style:styles.paddles})));}});
+style:styles.paddles})));}}]);return NavButton;})(Component);
 
 
 
@@ -1444,7 +1444,16 @@ style:styles.paddles})));}});
 
 var ChallengeAccepted=_reactNative2.default.createClass({
 
+componentDidMount:function(){
+this.removeFromFirebase(this.props.request_key);},
+
+
+componentWillUpdate:function(){
+this.removeFromFirebase(this.props.request_key);},
+
+
 removeFromFirebase:function(request_key){
+console.log("KEY: " + request_key);
 var playersRef=new _firebase2.default(FIREBASE_URL_PREFIX + "players/" + request_key);
 playersRef.set(null);},
 
@@ -1452,7 +1461,6 @@ playersRef.set(null);},
 render:function(){
 _reactNativeAudioplayer2.default.play("PukingOrFighting.mp3");
 _reactNative2.default.VibrationIOS.vibrate();
-this.removeFromFirebase(this.props.request_key);
 return (
 _reactNative2.default.createElement(_reactNative2.default.View,{style:styles.container},
 _reactNative2.default.createElement(_reactNative2.default.View,null,
@@ -1484,16 +1492,16 @@ request_key:"no push",
 playerName:defaultNames[Math.floor(Math.random() * defaultNames.length)],
 seen_alerts:[],
 dataSource:new ListView.DataSource({
-rowHasChanged:function(row1,row2){return row1 !== row2;}}),
+rowHasChanged:function(row1,row2){return true;}}),
 
 rows:[],
 loaded:false};},
 
 
 
-nextPage:function(snapshot){
+nextPage:function(playerData){
 var key=this.state.request_key;
-this.props.nav.push({id:'challenge_accepted',name:this.state.playerName,opponent:snapshot.child("playerName").val(),request_key:key});
+this.props.nav.push({id:'challenge_accepted',name:this.state.playerName,opponent:playerData.playerName,request_key:key});
 this.setState({request_key:'no push'});},
 
 
@@ -1509,14 +1517,14 @@ this.state.responses.on("child_added",this._handleRespondingPartner);},
 _handleRespondingPartner:function(snapshot){
 if(snapshot.child("partner").val() == this.state.request_key){
 console.log(snapshot.child("playerName").val() + " wants to play with us!");
-this.nextPage(snapshot);}},
+this.nextPage({playerName:snapshot.child("playerName").val(),resquestKey:snapshot.key()});}},
 
 
 
-_playBall:function(snapshot){
-console.log('Let\'s play ball with ' + snapshot.child("playerName").val());
-this.state.responses.push({playerName:this.state.playerName,partner:snapshot.key(),time:new Date().getTime() / 1000}).key();
-this.nextPage(snapshot);},
+_playBall:function(rowData){
+console.log('Let\'s play ball with ' + rowData.playerName);
+this.state.responses.push({playerName:this.state.playerName,partner:rowData.requestKey,time:new Date().getTime() / 1000}).key();
+this.nextPage(rowData);},
 
 
 updatePlayerName:function(event){
@@ -1539,11 +1547,15 @@ console.log("Ignoring our own play request");
 return;}
 
 
-console.log(this.state.request_key + " vs. " + snapshot.key());
+var newRows=this.state.rows;
+newRows.unshift({
+playerName:snapshot.child("playerName").val(),
+requestKey:snapshot.key()});
 
-this.state.rows.unshift(snapshot);
+
+this.setState({rows:newRows});
 this.setState({
-dataSource:this.state.dataSource.cloneWithRows(this.state.rows),
+dataSource:this.state.dataSource.cloneWithRows(newRows),
 loaded:true});},
 
 
@@ -1556,7 +1568,7 @@ loaded:true});},
 
 
 
-renderPlayer:function(rowData,sectionID,rowID){var _this2=this;
+renderPlayer:function(rowData){var _this2=this;
 return (
 _reactNative2.default.createElement(View,{style:styles.playerRowContainerView},
 _reactNative2.default.createElement(TouchableHighlight,{
@@ -1564,7 +1576,7 @@ onPress:function(){return _this2._playBall(rowData);}},
 _reactNative2.default.createElement(Text,{style:styles.leftPlayButton},'👍')),
 
 _reactNative2.default.createElement(View,{style:styles.playerRowContainer},
-_reactNative2.default.createElement(Text,{suppressHighlighting:false,style:styles.playerRow},rowData.child("playerName").val())),
+_reactNative2.default.createElement(Text,{suppressHighlighting:false,style:styles.playerRow},rowData.playerName)),
 
 _reactNative2.default.createElement(TouchableHighlight,{
 onPress:function(){return _this2._removeFromList(rowID);}},
@@ -1694,35 +1706,42 @@ textAlign:'center'},
 
 listView:{
 flex:1,
-alignSelf:"center",
+alignSelf:"stretch",
 paddingTop:5,
-paddingBottom:40,
-width:375},
+paddingBottom:40},
 
 playerRow:{
+flex:1,
 fontFamily:"Poetsen One",
 fontSize:32,
-flexDirection:"row",
 flexWrap:"wrap",
+textAlign:"center",
 backgroundColor:"white",
 paddingBottom:20,
 paddingTop:20},
 
 playerRowContainer:{
-flex:2,
-flexDirection:"row"},
+flex:1,
+flexDirection:"row",
+alignSelf:'stretch'},
 
 playButton:{
 flex:1},
 
 playerRowContainerView:{
-flexDirection:"row"},
+flex:1,
+flexDirection:"row",
+alignSelf:'stretch'},
 
 leftPlayButton:{
-fontSize:48},
+flex:1,
+fontSize:48,
+alignItems:'flex-start'},
 
 rightPlayButton:{
-fontSize:48}});
+flex:1,
+fontSize:48,
+alignItems:'flex-end'}});
 
 
 
