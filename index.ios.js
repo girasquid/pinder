@@ -189,29 +189,45 @@ var PinderWelcome = React.createClass({
       return this.renderLoadingView();
     }
 
-    if(this.state.dataSource)
-
-    return (
-      <React.View style={styles.container}>
-        <React.View>
-          <React.Text style={styles.header}>Pinder</React.Text>
-          <React.TextInput
-            style={styles.nameField}
-            onBlur={(e) => this.updatePlayerName(e.nativeEvent)}
-            defaultValue={this.state.playerName}
-            autoFocus={true} />
-          <NavButton
-            onPress={this.onButtonPressedJustEmojiModeTheReckoning}
-            srcImage={require('image!paddles-red')} />
-          <ListView
-            automaticallyAdjustContentInsets={false}
-            dataSource={this.state.dataSource}
-            renderRow={this.renderPlayer}
-            style={styles.listView}
-            scrollEnabled={false} />
+    if(this.state.dataSource.getRowCount() > 0) {
+      return (
+        <React.View style={styles.container}>
+          <React.View>
+            <React.Text style={styles.header}>Pinder</React.Text>
+            <React.TextInput
+              style={styles.nameField}
+              onBlur={(e) => this.updatePlayerName(e.nativeEvent)}
+              defaultValue={this.state.playerName}
+              autoFocus={true} />
+            <NavButton
+              onPress={this.onButtonPressedJustEmojiModeTheReckoning}
+              srcImage={require('image!paddles-red')} />
+            <ListView
+              automaticallyAdjustContentInsets={false}
+              dataSource={this.state.dataSource}
+              renderRow={this.renderPlayer}
+              style={styles.listView}
+              scrollEnabled={false} />
+          </React.View>
         </React.View>
-      </React.View>
-    );
+      );
+    } else {
+      return (
+        <React.View style={styles.container}>
+          <React.View>
+            <React.Text style={styles.header}>Pinder</React.Text>
+            <React.TextInput
+              style={styles.nameField}
+              onBlur={(e) => this.updatePlayerName(e.nativeEvent)}
+              defaultValue={this.state.playerName}
+              autoFocus={true} />
+            <NavButton
+              onPress={this.onButtonPressedJustEmojiModeTheReckoning}
+              srcImage={require('image!paddles-red')} />
+          </React.View>
+        </React.View>
+      );
+    }
   }
 })
 
