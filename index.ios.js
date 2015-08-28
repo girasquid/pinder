@@ -27,41 +27,6 @@ var {
 var FIREBASE_URL_PREFIX = "https://pinder-development.firebaseio.com/";
 var playersURL = new Firebase(FIREBASE_URL_PREFIX + "players");
 var responsesURL = new Firebase(FIREBASE_URL_PREFIX + "responses");
-var Camera = require('react-native-camera');
-
-var PinderCamera = React.createClass({
-  getInitialState: function() {
-    return {
-      value: '',
-      cameraType: Camera.constants.Type.front
-    };
-  },
-  render: function() {
-    return (
-      <React.View style={styles.container}>
-        <React.View>
-          <Camera
-            ref="cam"
-            aspect="Fill"
-            type="Front"
-            orientation="Portrait"
-            onScanned={this._onScannedResult}
-            style={styles.body}
-          />
-        </React.View>
-        <React.TouchableHighlight onPress={this._takePicture}>
-          <React.Text>Take Picture</React.Text>
-        </React.TouchableHighlight>
-      </React.View>
-    );
-  },
-  _takePicture() {
-    this.refs.cam.capture(function(err, data) {
-      this.props.navigator.pop();
-      console.log(err, data);
-    });
-  }
-});
 
 var NavButton = React.createClass ({
   render: function() {
@@ -117,7 +82,6 @@ var Header = React.createClass({
 })
 
 var PinderWelcome = React.createClass({
-
   nextPage: function() {
     var key = this.state.request_key;
     this.state.request_key = "no push";
@@ -136,6 +100,7 @@ var PinderWelcome = React.createClass({
   },
 
   onButtonPressedJustEmojiModeTheReckoning: function() {
+    React.VibrationIOS.vibrate();
     if(this.state.request_key != "no push") {
       console.log("You have a request! No push!");
       return;
