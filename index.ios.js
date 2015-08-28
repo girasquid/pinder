@@ -44,30 +44,24 @@ var NavButton = React.createClass ({
   }
 })
 
-var WaitingForMatch = React.createClass({
-  getInitialState: function() {
-    return {
-      name: this.props.name
-    }
-  },
-
+var ChallengeAccepted = React.createClass({
   render: function() {
     return (
       <React.View style={styles.container}>
         <Header />
         <React.View style={styles.body}>
-          <React.Text style={styles.nameField}>{this.state.name}</React.Text>
+          <React.Text style={styles.nameField}>{this.props.name}</React.Text>
           <NavButton
-            onPress={this.stopWaitingForMatch}
+            onPress={this.stopChallengeAccepted}
             srcImage={require('image!paddles-black')} />
           <React.Text style={styles.nameField}>vs.</React.Text>
-          <React.Text style={styles.nameField}>Them</React.Text>
+          <React.Text style={styles.nameField}>{this.props.opponent}</React.Text>
         </React.View>
       </React.View>
     );
   },
 
-  stopWaitingForMatch: function() {
+  stopChallengeAccepted: function() {
     var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + this.props.request_key);
     playersRef.set(null);
     this.props.nav.pop();
@@ -75,11 +69,6 @@ var WaitingForMatch = React.createClass({
 });
 
 var PinderWelcome = React.createClass({
-  nextPage: function() {
-    var key = this.state.request_key;
-    this.state.request_key = "no push";
-    this.props.nav.push({ id: 'waiting', name: this.state.playerName, request_key: key })
-  },
 
   getInitialState: function() {
     return {
@@ -93,6 +82,11 @@ var PinderWelcome = React.createClass({
       }),
       rows: []
     }
+  },
+
+  nextPage: function(snapshot) {
+    var key = this.state.request_key;
+    this.props.nav.push({ id: 'challenge_accepted', name: this.state.playerName, opponent: snapshot.child("playerName").val(), request_key: key })
   },
 
   onButtonPressedJustEmojiModeTheReckoning: function() {
@@ -115,7 +109,7 @@ var PinderWelcome = React.createClass({
   _playBall: function(snapshot) {
     console.log('Let\'s play ball with ' + snapshot.child("playerName").val());
     this.state.responses.push({playerName: this.state.playerName, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
-    return;
+    this.nextPage(snapshot)
   },
 
   updatePlayerName: function(event) {
@@ -184,8 +178,8 @@ var PinderWelcome = React.createClass({
 var PinderMain = React.createClass({
   renderSceneMethod: function(route, nav) {
     switch (route.id) {
-      case 'waiting':
-        return <WaitingForMatch nav={nav} name={route.name} request_key={route.request_key} />;
+      case 'challenge_accepted':
+        return <ChallengeAccepted nav={nav} name={route.name} request_key={route.request_key} opponent={route.opponent} />;
       default:
         return <PinderWelcome nav={nav} />
     }
