@@ -106,20 +106,7 @@ var PinderWelcome = React.createClass({
   onButtonPressedJustEmojiModeTheReckoning: function() {
     React.VibrationIOS.vibrate();
     this.state.request_key = this.state.players.push({playerName: this.state.playerName}).key();
-    this.state.players.on("child_added", this._handleNewPlayer);
     this.state.responses.on("child_added", this._handleRespondingPartner)
-    this.nextPage()
-  },
-
-  _handleNewPlayer: function(snapshot) {
-    React.AlertIOS.alert(
-      "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
-      snapshot.child("playerName").val(),
-      [
-        {text: '\u2764\uFE0F', onPress: () => this._playBall(snapshot)},
-        {text: '\uD83D\uDC94', onPress: () => console.log('Declining to play with ' + snapshot.child("playerName").val())}
-      ]
-    )
   },
 
   _handleRespondingPartner: function(snapshot) {
