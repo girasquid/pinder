@@ -141,6 +141,8 @@ var PinderWelcome = React.createClass({
       return
     }
 
+    console.log(this.state.request_key + " vs. " + snapshot.key())
+
     this.state.rows.unshift(snapshot)
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.rows),
@@ -148,27 +150,26 @@ var PinderWelcome = React.createClass({
     })
   },
 
-  _removeFromList: function(snapshot) {
-    index = this.state.rows.indexOf(snapshot.child("playerName").val())
-    this.state.rows.splice(index, 1)
+  _removeFromList: function(rowID) {
+    this.state.rows.splice(rowID, 1)
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.rows),
       loaded: true
     })
   },
 
-  renderPlayer: function(snapshot) {
+  renderPlayer: function(rowData: string, sectionID: number, rowID: number) {
     return (
       <View style={styles.playerRowContainerView}>
         <TouchableHighlight
-          onPress={() => this._playBall(snapshot)}>
+          onPress={() => this._playBall(rowData)}>
           <Text style={styles.leftPlayButton}>👍</Text>
         </TouchableHighlight>
         <View style={styles.playerRowContainer}>
-          <Text suppressHighlighting={false} style={styles.playerRow}>{snapshot.child("playerName").val()}</Text>
+          <Text suppressHighlighting={false} style={styles.playerRow}>{rowData.child("playerName").val()}</Text>
         </View>
         <TouchableHighlight
-          onPress={() => console.log('Declining to play with ' + snapshot.child("playerName").val())}>
+          onPress={() => this._removeFromList(rowID)}>
           <Text style={styles.rightPlayButton}>👎</Text>
         </TouchableHighlight>
       </View>
