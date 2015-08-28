@@ -149,6 +149,7 @@ var PinderWelcome = React.createClass({
 //      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
 //    })
 //  }
+  },
 
   renderPlayer: function(player) {
     return (
