@@ -141,14 +141,6 @@ var PinderWelcome = React.createClass({
     })
   },
 
-//  _removeFromList: function(snapshot) {
-//    index = this.state.rows.indexOf(snapshot.child("playerName").val())
-//    this.state.rows.splice(index, 1)
-//    this.setState({
-//      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
-//    })
-//  }
-
   renderPlayer: function(snapshot) {
     return (
       <View style={styles.container}>
