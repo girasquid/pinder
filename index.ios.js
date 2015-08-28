@@ -90,6 +90,10 @@ var PinderWelcome = React.createClass({
   },
 
   onButtonPressedJustEmojiModeTheReckoning: function() {
+    if(this.state.request_key != "no push") {
+      console.log("You have a request! No push!");
+      return;
+    }
     React.VibrationIOS.vibrate();
     this.state.request_key = this.state.players.push({playerName: this.state.playerName}).key();
     this.state.responses.on("child_added", this._handleRespondingPartner)
