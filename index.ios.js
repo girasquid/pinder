@@ -74,14 +74,6 @@ var WaitingForMatch = React.createClass({
   }
 });
 
-var Header = React.createClass({
-  render: function() {
-    return (
-      <React.Text style={styles.header}>Pinder</React.Text>
-    )
-  }
-})
-
 var PinderWelcome = React.createClass({
   nextPage: function() {
     var key = this.state.request_key;
@@ -164,8 +156,8 @@ var PinderWelcome = React.createClass({
   render: function() {
     return (
       <React.View style={styles.container}>
-        <Header />
-        <React.View style={styles.body}>
+        <React.View>
+          <React.Text style={styles.header}>Pinder</React.Text>
           <React.TextInput
             style={styles.nameField}
             onBlur={(e) => this.updatePlayerName(e.nativeEvent)}
@@ -177,7 +169,8 @@ var PinderWelcome = React.createClass({
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderPlayer}
-            style={styles.listView} />
+            style={styles.listView}
+            scrollEnabled={false} />
         </React.View>
       </React.View>
     );
@@ -216,20 +209,14 @@ var styles = StyleSheet.create({
     flexDirection: 'column'
   },
   header: {
-    flex: 20,
+    flex: 1,
     fontSize: 96,
     textAlign: "center",
-    height: 100,
+    // height: 100,
     fontFamily: "Poetsen One",
     // textTransform: "capitalize",
     backgroundColor: "#FFA500",
     color: "#333333"
-  },
-  body: {
-    flex: 80,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   paddles: {
     flex: 1,
@@ -250,25 +237,36 @@ var styles = StyleSheet.create({
     width: 400,
     height: 60
   },
-  rightContainer: {
-    flex: 1,
-  },
   title: {
     fontSize: 20,
     marginBottom: 8,
     textAlign: 'center',
   },
-  year: {
-    textAlign: 'center',
-  },
-  thumbnail: {
-    width: 53,
-    height: 81,
-  },
   listView: {
-    paddingTop: 20,
+    flex: 1,
+    alignSelf: "center",
+    textAlign: "center",
+    paddingTop: 5,
+    paddingBottom: 200,
+    width: 400,
     backgroundColor: '#F5FCFF',
+  },
+  playerRow: {
+    fontFamily: "Poetsen One",
+    fontSize: 48,
+    width: 400,
+    textAlign: "center",
   },
 });
 
 AppRegistry.registerComponent('Pinder', () => PinderMain);
+
+
+    // flex: 20,
+    // fontSize: 96,
+    // textAlign: "center",
+    // height: 100,
+    // fontFamily: "Poetsen One",
+    // // textTransform: "capitalize",
+    // backgroundColor: "#FFA500",
+    // color: "#333333"
