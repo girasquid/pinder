@@ -30,8 +30,8 @@ var FIREBASE_URL_PREFIX = "https://pinder-development.firebaseio.com/";
 var playersURL = new Firebase(FIREBASE_URL_PREFIX + "players");
 var responsesURL = new Firebase(FIREBASE_URL_PREFIX + "responses");
 
-var NavButton = React.createClass ({
-  render: function() {
+class NavButton extends Component {
+  render() {
     return (
       <TouchableHighlight
         onPress={this.props.onPress}
@@ -41,13 +41,22 @@ var NavButton = React.createClass ({
           source={this.props.srcImage}
           style={styles.paddles} />
       </TouchableHighlight>
-    );
+    )
   }
-})
+}
 
 var ChallengeAccepted = React.createClass({
 
+  componentDidMount: function() {
+    this.removeFromFirebase(this.props.request_key)
+  },
+
+  componentWillUpdate: function() {
+    this.removeFromFirebase(this.props.request_key)
+  },
+
   removeFromFirebase: function(request_key) {
+    console.log("KEY: " + request_key)
     var playersRef = new Firebase(FIREBASE_URL_PREFIX + "players/" + request_key);
     playersRef.set(null);
   },
@@ -55,18 +64,17 @@ var ChallengeAccepted = React.createClass({
   render: function() {
     AudioPlayer.play("PukingOrFighting.mp3");
     React.VibrationIOS.vibrate();
-    this.removeFromFirebase(this.props.request_key)
     return (
       <React.View style={styles.container}>
         <React.View>
-        <React.Text style={styles.header}>Pinder</React.Text>
-        <React.View style={styles.body}>
-          <React.Text style={styles.nameField}>{this.props.name}</React.Text>
-          <NavButton
-            onPress={this.stopChallengeAccepted}
-            srcImage={require('image!paddles-black')} />
-          <React.Text style={styles.nameField}>vs.</React.Text>
-          <React.Text style={styles.nameField}>{this.props.opponent}</React.Text>
+          <React.Text style={styles.header}>Pinder</React.Text>
+          <React.View style={styles.body}>
+            <React.Text style={styles.nameField}>{this.props.name}</React.Text>
+            <NavButton
+              onPress={this.stopChallengeAccepted}
+              srcImage={require('image!paddles-black')} />
+            <React.Text style={styles.nameField}>vs.</React.Text>
+            <React.Text style={styles.nameField}>{this.props.opponent}</React.Text>
           </React.View>
         </React.View>
       </React.View>
