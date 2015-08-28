@@ -311,29 +311,37 @@ var styles = StyleSheet.create({
     width: 375
   },
   playerRow: {
+    flex: 1,
     fontFamily: "Poetsen One",
     fontSize: 32,
-    flexDirection: "row",
     flexWrap: "wrap",
+    textAlign: "center",
     backgroundColor: "white",
     paddingBottom: 20,
     paddingTop: 20
   },
   playerRowContainer: {
-    flex: 2,
+    flex: 1,
     flexDirection: "row",
+    alignSelf: 'stretch',
   },
   playButton: {
     flex: 1,
   },
   playerRowContainerView: {
+    flex: 1,
     flexDirection: "row",
+    alignSelf: 'stretch'
   },
   leftPlayButton: {
+    flex: 1,
     fontSize: 48,
+    alignItems: 'flex-start'
   },
   rightPlayButton: {
-    fontSize: 48
+    flex: 1,
+    fontSize: 48,
+    alignItems: 'flex-end'
   },
 });
 
