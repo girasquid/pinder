@@ -17,6 +17,7 @@ var {
   Text,
   View,
   Navigator,
+  ListView,
   Component,
   TouchableOpacity,
   TouchableHighlight,
@@ -94,6 +95,11 @@ var PinderWelcome = React.createClass({
       responses: responsesURL,
       request_key: "no push",
       playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)],
+      seen_alerts: [],
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      rows: []
     }
   },
 
@@ -141,6 +147,25 @@ var PinderWelcome = React.createClass({
     });
   },
 
+  componentDidMount: function() {
+    this.state.players.on("child_added", this._updateList);
+  },
+
+  _updateList: function(snapshot) {
+    this.state.rows.push(snapshot.child("playerName").val())
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
+    })
+  },
+
+  renderPlayer: function(player) {
+    return (
+      <View style={styles.container}>
+        <Text>\u2764\uFE0F {player} \uD83D\uDC94</Text>
+      </View>
+    );
+  },
+
   render: function() {
     return (
       <React.View style={styles.container}>
@@ -153,7 +178,11 @@ var PinderWelcome = React.createClass({
             autoFocus={true} />
           <NavButton
             onPress={this.onButtonPressedJustEmojiModeTheReckoning}
-            srcImage={require('image!paddles-black')} />
+            srcImage={require('image!paddles-red')} />
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderPlayer}
+            style={styles.listView} />
         </React.View>
       </React.View>
     );
@@ -225,7 +254,26 @@ var styles = StyleSheet.create({
     fontSize: 30,
     width: 400,
     height: 60
-  }
+  },
+  rightContainer: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 20,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  year: {
+    textAlign: 'center',
+  },
+  thumbnail: {
+    width: 53,
+    height: 81,
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#F5FCFF',
+  },
 });
 
 AppRegistry.registerComponent('Pinder', () => PinderMain);
