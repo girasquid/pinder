@@ -24,7 +24,6 @@ var {
   TextInput
 } = React;
 
-var Button = require('react-native-button');
 var FIREBASE_URL_PREFIX = "https://pinder-development.firebaseio.com/";
 var playersURL = new Firebase(FIREBASE_URL_PREFIX + "players");
 var responsesURL = new Firebase(FIREBASE_URL_PREFIX + "responses");
@@ -64,10 +63,46 @@ var PinderCamera = React.createClass({
   }
 });
 
-class PinderWelcome extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+var WaitingForMatch = React.createClass({
+  getInitialState: function() {
+    return {
+      name: this.props.name
+    }
+  },
+
+  render: function() {
+    return (
+      <React.View style={styles.container}>
+        <Header />
+        <React.View style={styles.body}>
+          <React.Text style={styles.nameField}>{this.state.name}</React.Text>
+            <React.Image
+              source={require('image!paddles-black')}
+              style={styles.introImage} />
+          <React.Text style={styles.nameField}>vs.</React.Text>
+          <React.Text style={styles.nameField}>Them</React.Text>
+        </React.View>
+      </React.View>
+    );
+  }
+});
+
+var Header = React.createClass({
+  render: function() {
+    return (
+      <React.Text style={styles.header}>Pinder</React.Text>
+    )
+  }
+})
+
+var PinderWelcome = React.createClass({
+
+  nextPage: function() {
+    this.props.nav.push({ id: 'waiting', name: this.state.playerName })
+  },
+
+  getInitialState: function() {
+    return {
       players: playersURL,
       responses: responsesURL,
       request_key: "no push",
@@ -75,24 +110,20 @@ class PinderWelcome extends Component {
       playerName: defaultNames[Math.floor(Math.random()*defaultNames.length)],
       seen_alerts: []
     }
-  }
-  onLaunchPressed() {
-    this.props.navigator.push({
-      title: "Pinder",
-      component: PinderCamera,
-      passProps: {}
-    });
-  }
-  onButtonPressedJustEmojiModeTheReckoning() {
+  },
+
+  onButtonPressedJustEmojiModeTheReckoning: function() {
     if(this.state.request_key != "no push") {
       console.log("You have a request! No push!");
       return;
     }
     this.state.request_key = this.state.players.push({playerName: this.state.playerName, time: new Date().getTime() / 1000}).key();
-    this.state.players.on("child_added", this._handleNewPlayer.bind(this));
-    this.state.responses.on("child_added", this._handleRespondingPartner.bind(this))
-  }
-  _handleNewPlayer(snapshot) {
+    this.state.players.on("child_added", this._handleNewPlayer);
+    this.state.responses.on("child_added", this._handleRespondingPartner)
+    this.nextPage()
+  },
+
+  _handleNewPlayer: function(snapshot) {
     if(snapshot.val() == "no push") {
       console.log("No push!");
       return;
@@ -122,8 +153,9 @@ class PinderWelcome extends Component {
         {text: '\uD83D\uDC94', onPress: () => console.log('Declining to play with ' + snapshot.child("playerName").val())}
       ]
     )
-  }
-  _handleRespondingPartner(snapshot) {
+  },
+
+  _handleRespondingPartner: function(snapshot) {
     if(snapshot.child("partner").val() == this.state.request_key) {
       React.AlertIOS.alert(
         "\uD83D\uDCA5 \uD83D\uDC65 \uD83D\uDCA5",
@@ -132,50 +164,70 @@ class PinderWelcome extends Component {
       )
       console.log(snapshot.child("playerName").val() + " wants to play with us!")
     }
-  }
-  _playBall(snapshot) {
+  },
+
+  _playBall: function(snapshot) {
     console.log('Let\'s play ball with ' + snapshot.child("playerName").val());
     this.state.responses.push({playerName: this.state.playerName, partner: snapshot.key(), time: new Date().getTime() / 1000}).key();
     return;
-  }
-  updatePlayerName(event) {
-    console.log(event.text)
+  },
+
+  updatePlayerName: function(event) {
     this.setState((state) => {
       return {
         playerName: event.text
       };
     });
-  }
+  },
 
-  render() {
+  render: function() {
+    if (this.state.request_key != "no push") {
+      return this.renderLoadingView();
+    }
+
     return (
       <React.View style={styles.container}>
-        <React.Text style={styles.header}>Pinder</React.Text>
+        <Header />
         <React.View style={styles.body}>
           <React.TextInput
             style={styles.nameField}
             onBlur={(e) => this.updatePlayerName(e.nativeEvent)}
             defaultValue={this.state.playerName}
             autoFocus={true} />
-          <Button
-            style={{borderWidth:0, color: 'orange'}}
-            onPress={this.onButtonPressedJustEmojiModeTheReckoning.bind(this)}
-            style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableHighlight
+            onPress={this.onButtonPressedJustEmojiModeTheReckoning}
+            style={{justifyContent: 'center', alignItems: 'center'}}
+            underlayColor="#FEFEFE">
             <React.Image
               source={require('image!paddles-red')}
               style={styles.introImage} />
-          </Button>
-          </React.View>
+          </TouchableHighlight>
+        </React.View>
       </React.View>
     );
   }
-}
+})
 
 var PinderMain = React.createClass({
+  renderSceneMethod: function(route, nav) {
+    switch (route.id) {
+      case 'waiting':
+        return <WaitingForMatch nav={nav} name={route.name} />;
+      default:
+        return <PinderWelcome nav={nav} />
+    }
+  },
+
   render: function() {
     return (
-      <PinderWelcome />
-    )
+      <Navigator
+        style={styles.container}
+        initialRoute={{component: PinderWelcome}}
+        configureScene={(route) => {
+          return Navigator.SceneConfigs.FloatFromBottom;
+        }}
+        renderScene={this.renderSceneMethod} />
+    );
   }
 });
 
