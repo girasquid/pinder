@@ -129,7 +129,7 @@ var PinderWelcome = React.createClass({
     if(snapshot.key() == this.state.request_key) {
       return
     }
-    this.state.rows.push(snapshot)
+    this.state.rows.unshift(snapshot)
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.rows)
     })
