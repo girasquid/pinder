@@ -151,15 +151,17 @@ var PinderWelcome = React.createClass({
 
   renderPlayer: function(snapshot) {
     return (
-      <View>
+      <View style={styles.playerRowContainerView}>
         <TouchableHighlight
           onPress={() => this._playBall(snapshot)}>
-          <Text>Play!</Text>
+          <Text style={styles.leftPlayButton}>👍</Text>
         </TouchableHighlight>
-        <Text style={styles.playerRow}>😡 {snapshot.child("playerName").val()} 😡</Text>
+        <View style={styles.playerRowContainer}>
+          <Text suppressHighlighting={false} style={styles.playerRow}>{snapshot.child("playerName").val()}</Text>
+        </View>
         <TouchableHighlight
           onPress={() => console.log('Declining to play with ' + snapshot.child("playerName").val())}>
-          <Text>Get Lost!</Text>
+          <Text style={styles.rightPlayButton}>👎</Text>
         </TouchableHighlight>
       </View>
     );
@@ -259,15 +261,32 @@ var styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "center",
     paddingTop: 5,
-    paddingBottom: 200,
-    width: 400,
+    width: 375,
     backgroundColor: '#F5FCFF',
   },
   playerRow: {
+    // flex: 2,
     fontFamily: "Poetsen One",
     fontSize: 48,
-    width: 400,
-    textAlign: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    backgroundColor: "white",
+  },
+  playerRowContainer: {
+    flex: 2,
+    flexDirection: "row",
+  },
+  playButton: {
+    flex: 1,
+  },
+  playerRowContainerView: {
+    flexDirection: "row",
+  },
+  leftPlayButton: {
+    fontSize: 48,
+  },
+  rightPlayButton: {
+    fontSize: 48
   },
 });
 
